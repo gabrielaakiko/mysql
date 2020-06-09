@@ -1,0 +1,135 @@
+
+----------------------------------------------------------------------------------------------------------------------------
+create database biblioteca;
+
+use biblioteca;
+ 
+CREATE TABLE aluno (
+ra int PRIMARY KEY auto_increment,
+dataNascimento date,
+nome varchar(100) not null,
+telfixo varchar(15),
+turma varchar(15),
+telcel varchar(15),
+email varchar(50) unique
+);
+
+CREATE TABLE bibliotecario (
+cod_funcionario int PRIMARY KEY auto_increment,
+email varchar(255) ,
+nome varchar(100) not null,
+telefone varchar(15),
+data_nascimento date not null,
+logradouro varchar(255),
+complemento varchar(100),
+cidade varchar(100) ,
+numero varchar(10) ,
+bairro varchar(50) ,
+uf varchar(2),
+cep varchar(15),
+cpf varchar(15) ,   
+rg varchar(15),
+rua varchar(100)    
+);
+
+CREATE TABLE livros (
+cod_livro int PRIMARY KEY AUTO_INCREMENT,
+editora varchar(100),
+genero varchar(100),
+titulo varchar(50) not null,
+autor varchar(50)
+);
+
+CREATE TABLE emprestimo_devolucao (
+cod_emprestimo int PRIMARY KEY auto_increment,
+data_devolucao date,
+data_emprestimo date,
+ra int,
+cod_livro int,
+cod_funcionario int,
+FOREIGN KEY(ra) REFERENCES aluno (ra),
+FOREIGN KEY (cod_funcionario) REFERENCES bibliotecario (cod_funcionario),
+FOREIGN KEY (cod_livro) REFERENCES livros (cod_livro)
+);
+
+
+
+INSERT INTO aluno(nome,turma,telfixo,email,telcel,dataNascimento) VALUES
+('Maria Cristina','1C','7898-6545','mariacris@gmail.com','98888-6543','2005-02-12'),
+('Sophia Oliveira','3B','4549-6778','olivisophie@gmail.com','95555-6545','2002-09-03'),
+('Marcos de Santos Aguiar','1B','2345-4768','Marcos.aguiar@gmail.com','11 97856-2456','2005-05-27'),
+('Gabriel Ferreira Silva','2C','7986-7789','ferreiraa.sil@gmail.com','94578-6548','2004-10-03'),
+('Larissa Silva Pereira','1A','7156-8980','larissapereira@gmail.com','38898-6783','2005-07-15'),
+('Rafael Reis Oliveira','3B','4545-6789','rafaoliveira2000@gmail.com','11 67886-2153','2003-05-20'),
+('Gabrielly Silva Marci','2C','2795-4908','gally.silva@gmail.com','11 69996-3453','2004-07-11'),
+('Lucas Faria Alves','1C','4567-8923','Lucas.fa@gmail.com','34078-6942','2005-08-17'),
+('Claudia Alves Leme','2A','7894-6353','leme.claudia@gmail.com','11 70096-3352','2004-02-23'),
+('Pedro José da Silva ','1C','4547-6385','pedro.joh3456@gmail.com','37498-9353','2005-07-03'),
+('Esther Alves da Silva','1A','7689-5437','alvesestella@gmail.com','11 737496-3462','2004-08-17'),
+('Gabriela Almeida Ferreira Santos ','1C','7654-9876','gafs1608@gmail.com','376598-4356','2005-08-16'),
+('Thiago Matheus Oliveira Rodrigues','1A','4532-9987','thiagomathor@gmail.com','11 53786-9376','2005-06-03'),
+('Thiago França Almeida Lopes','3B','7936-7365','lopesfrança.thii@gmail.com','11 7373546-9754','2002-03-29');
+
+INSERT INTO bibliotecario (nome,email,data_nascimento,telefone,cpf,cidade,uf,rg,cep,rua,numero,bairro,logradouro,complemento) VALUES
+('Renata Marcia da Silva ','renata.marciadasilva@gmail.com','1999-03-09','5632-2345','23.445.654-78','Ribeirão Pires','SP','NULL','NULL','NULL','NULL','NULL','NULL','NULL'),
+ ('Bianca Leticia Rodrigues ','biancarodriguess.220@gmail.com','1995-05-04','5908-7385','25.664.654-90','Mauá','SP','NULL','NULL','NULL','NULL','NULL','NULL','NULL');
+ 
+ 
+INSERT INTO livros (titulo,editora,genero,autor)VALUES
+('O diário de Anne Frank','Pé da letra','Histórico','Anne Frank'),
+('A bolsa amarela','Casa Lygia Bojunga','Fantasia','Casa Lygia Bojunga'),
+('O lado mais sombrio','Novo Conceito','Romance','A.G Howard'),
+('Antologia poética','Companhia de Bolso','Literatura','Vinicius de Moraes'),
+('A ilha do tesouro','Editora Ática','Literatura','Robert Louise Stevenson'),
+('A volta ao mundo em 80 dias','LPM','Literatura','Júlio Verne'),
+('Mémoria postumas de brás cubas','Editora Ática','Literatura','Machado de Assis'),
+('Vinte mil léguas submarinas','Ciranda Cultural','Literatura','Júlio Verne'),
+('Meninos sem pátria','Vaga-Lume','Histórico','Luiz Puntel'),
+('A cinco passos de você','Novo Conceito','Romance','Tobias Iaconis'),
+('Harry Potter e a pedra filosofal','Editora Ática','Ficção','G.K Rowling'),
+('Harry Potter e a câmara secreta','Editora Ática','Ficção','G.K Rowling'),
+('A seleção','Seguinte','Ficção',' kiera cass'),
+('A elite','Seguinte','Ficção',' kiera cass');
+
+INSERT INTO emprestimo_devolucao (data_emprestimo,data_devolucao,ra,cod_funcionario,cod_livro) VALUES
+('2019-05-07','2019-5-17','1','1','10'),
+('2020-03-06','2020-03-16','2','2','5'),
+('2020-08-10','2020-08-20','3','2','3'),
+('2018-04-01','2018-04-11','4','1','1'),
+('2019-01-05','2019-01-15','5','2','2'),
+('2020-07-18','2020-07-28','6','1','7'),
+('2016-02-04','2016-02-14','7','1','8'),
+('2020-01-15','2020-01-25','8','2','4'),
+('2019-12-20','2020-01-10','9','2','3'),
+('2021-05-03','2021-05-13','10','1','9');
+-------------------------------------------------------------------------
+alter table bibliotecario drop COLUMN rua;
+ALTER TABLE livros ADD COLUMN paginas int;
+ALTER TABLE livros ADD COLUMN qtd_exemplares int;
+--------------------------------------------------------------------------
+UPDATE livros set paginas = 240, qtd_exemplares = 2 WHERE cod_livro = 1;
+UPDATE livros set paginas = 140, qtd_exemplares = 3 WHERE cod_livro = 2;
+UPDATE livros set paginas = 100, qtd_exemplares = 2 WHERE cod_livro = 3;
+UPDATE livros set paginas = 150, qtd_exemplares = 1 WHERE cod_livro = 4;
+UPDATE livros set paginas = 500, qtd_exemplares = 1 WHERE cod_livro = 5;
+UPDATE livros set paginas = 100, qtd_exemplares = 4 WHERE cod_livro = 6;
+UPDATE livros set paginas = 500, qtd_exemplares = 2 WHERE cod_livro = 7;
+UPDATE livros set paginas = 78, qtd_exemplares = 1 WHERE cod_livro = 8;
+UPDATE livros set paginas = 120, qtd_exemplares = 2 WHERE cod_livro = 9;
+UPDATE livros set paginas = 180, qtd_exemplares = 4 WHERE cod_livro = 10;
+UPDATE livros set paginas = 245, qtd_exemplares = 3 WHERE cod_livro = 11;
+UPDATE livros set paginas = 155, qtd_exemplares = 1 WHERE cod_livro = 12;
+UPDATE livros set paginas = 480, qtd_exemplares = 2 WHERE cod_livro = 13;
+UPDATE livros set paginas = 100, qtd_exemplares = 1 WHERE cod_livro = 14;
+UPDATE livros set paginas = 150, qtd_exemplares = 3 WHERE cod_livro = 15;
+UPDATE livros set paginas = 260, qtd_exemplares = 1 WHERE cod_livro = 16;
+UPDATE livros set paginas = 300, qtd_exemplares = 2 WHERE cod_livro = 17;
+UPDATE livros set paginas = 150, qtd_exemplares = 3 WHERE cod_livro = 18;
+UPDATE livros set paginas = 225, qtd_exemplares = 2 WHERE cod_livro = 19;
+UPDATE livros set paginas = 50, qtd_exemplares = 1 WHERE cod_livro = 20;
+UPDATE livros set paginas = 130, qtd_exemplares = 3 WHERE cod_livro = 21;
+UPDATE livros set paginas = 340, qtd_exemplares = 1 WHERE cod_livro = 22;
+UPDATE livros set paginas = 500, qtd_exemplares = 1 WHERE cod_livro = 23;
+UPDATE livros set paginas = 245, qtd_exemplares = 2 WHERE cod_livro = 24;
+UPDATE livros set paginas = 250, qtd_exemplares = 2 WHERE cod_livro = 25;
+
